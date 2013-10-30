@@ -1,0 +1,17 @@
+{
+  	"name": "Polymer on Chromeapp",
+  	"description": "Polymer on Chromeapp",
+  	"version": "1",
+  	"manifest_version": 2,
+  	"permissions": [],
+  	"icons": {
+  		"128": "icon-128.png"
+  	},
+  	"app": {
+  		"background": {
+  			"scripts": [
+  				"main.js"
+  			]
+  		}
+  	}
+  }
