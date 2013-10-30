@@ -30,7 +30,7 @@ Playing with polymer and chromeapp.
     `<x-app></x-app>
     <script src="imports.js"></script>`
 
-- Add legacy code to each Polymer constructors in imports.js, if you want test with `polymer.min.inlab`
+- Add legacy code ( `, { created: function() {} }` )into each Polymer constructors in imports.js, if you want test with `polymer.min.inlab`
 
     `
 
