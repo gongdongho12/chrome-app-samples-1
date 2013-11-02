@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<title>Chrome Apps Development</title>
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+<link rel="stylesheet" href="bower_components/reveal.js/css/reveal.min.css">
+<link rel="stylesheet" href="bower_components/reveal.js/lib/css/zenburn.css">
+<link rel="stylesheet" href="styles/reveal_yeoman.css" id="theme">
+
+<!--[if lt IE 9]>
+<script src="lib/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+
+<body>
+  <div class="reveal">
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+
+      <!-- title -->
+      <section id="title">
+        <!-- <button id="demoForNotification">Diff</button> -->
+        <h3 id="titleroll">Chrome Apps Development</h3>
+      </section>
+
+      <!-- aboutme -->
+      <section id="aboutme">
+        <h2>about:me</h2>
+        <ul>
+          <li><a href="ragingwind.org" id="userid">`ragingwind`</a> at <a href="http://ragingwind/+">Google Plus</a>, <a href="https://github.com/ragingwind">Github</a></li>
+          <li><a href="https://plus.google.com/communities/109067040035659120428">GDG Korea WebTech</a> Organizer</li>
+          <li><a href="https://github.com/yeoman?tab=members" id="yeoman-team">Yeoman team</a> - Maintainer of <a href="https://github.com/yeoman/generator-chromeapp">Chrome Apps</a> and <a href="https://github.com/yeoman/generator-chrome-extension">Chrome Extension</a> generator</li>
+          <li><a href="http://chromist.org/">chromist.org</a></li>
+        </ul>
+      </section>
+
+      <section id="chromeapp-basic">
+        <section id="whatis-chromeapp">
+          <h2 class="chromeapp-logo">Chrome Apps?</h2>
+        </section>
+
+        <section id="manifest-compare">
+          <h2>Chrome Apps!</h2>
+          <br/>
+          <div>
+            <table><tr>
+              <td><div class="highlight-red">
+<pre><code>// Packaged App
+// Brandnew Chromeapp
+// Using chrome.* APIs
+
+"app": {
+  "background": {
+    "scripts": [
+      "scripts/main.js"
+    ]
+  }
+}
+</code></pre>
+              </div></td>
+              <td><div class="highlight-red">
+<pre><code>// Legacy Packaged App
+// Never mind!
+// Using extension APIs
+
+"app": {
+  "launch": {
+    "local_path": "main.html"
+  }
+}
+</code></pre>
+              </div></td>
+              <td><div class="highlight-red">
+<pre id="manifest-hostedapp"><code>// Hosted App
+// Big web-service
+// Without chrome.* APIs
+
+"app": {
+  "urls": [
+    "*://mail.google.com/mail/",
+    "*://www.google.com/mail/"
+  ],
+  "launch": {
+    "web_url":
+      "http://mail.google.com/mail/"
+  }
+}
+</code></pre>
+              </div></td>
+            </tr></table>
+          </div>
+          <div class="note"><a href="http://goo.gl/wLMEdH">Choosing an App Type </a></div>
+        </section>
+
+        <section id="packagedapp">
+          <h2 class="chromeapp-logo">Chrome[=<span style="color:#D5151D">Packaged</span>] app</h2>
+          <ul>
+              <li class="fragment">OFFLINE BY DEFAULT</li>
+              <li class="fragment">CLOUD READY</li>
+              <li class="fragment">NATIVELY INTEGRATED</li>
+              <li class="fragment">MULTI-DEVICE CAPABLE</li>
+              </ul>
+        </section>
+
+        <section id="offline-by-default">
+          <h3>Offline by default</h3>
+          <div id="download-chromeapp"></div>
+        </section>
+
+        <section id="wunderlist">
+          <div class="fragment fade-out" data-fragment-index="1" id="wunderlist-offline-png"></div>
+          <div class="fragment fade-int chromeapp-launcher" data-fragment-index="1" id="wunderlist-app">
+            <div id="wunderlist-icon">Wunderlist</div>
+          </div>
+        </section>
+
+        <section id="wunderlist-filestructure">
+          <h4>App Code Stored Locally<sup> - Offline by Default</sup></h4>
+<pre><code>
+├── blank.html
+├── config.js
+├── fonts
+├── icons
+├── images
+├── js
+│   ├── libs.js
+│   ├── login.js
+│   └── main.js
+├── manifest.json
+├── service-dev.js
+├── service.js
+└── sounds
+
+23 directories, 1910 files
+</pre></code>
+        </section>
+
+        <section id="infrastructure">
+
+          <h4>Infrastructure Files<sup> - Offline by Default</sup></h4>
+          <span class="code-label">manifest.json</span>
+<pre><code>{
+  "name": "Hello World!",
+  "version": "0.1",
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+  "icons": { "16": "icon-16.png", "128": "icon-128.png" }
+}
+</pre></code>
+
+          <span class="code-label">main.js:</span>
+<pre><code>chrome.app.runtime.onLaunched.addListener(function() {
+  chrome.app.window.create('window.html', {
+    'bounds': {
+      'width': 400,
+      'height': 500
+    }
+  });
+});
+</pre></code>
+        </section>
+
+        <section data-markdown id="offline-first">
+          <script type="text/template">
+          #### [Offline First]( http://goo.gl/8uuUL8 ) <sup> - Offline by Default</sup>
+            - Already downloaded:
+              - Javascript: Pacakged and NO inline JavaScript
+              - CSS, Image and Font: Packaged or downloading files
+              - Large media resource: `<video>` and `<audio>` Tag
+              - Other remote webpage: [`<webview>` Tag]( http://goo.gl/rzfx8a )
+            - Use local data: [chrome.storage]( http://goo.gl/NXliWy ), [chrome.fileSystem]( http://goo.gl/vUiQKs ) or [IndexedDB]( http://goo.gl/98OHcl )
+            - Detect connection changes:  [Online and offline events]( http://goo.gl/KRF0w )
+          </script>
+        </section>
+
+        <section data-markdown id="cloud-ready">
+          <script type="text/template">
+          ## [Cloud Ready]( http://goo.gl/8uuUL8 )
+            - Synchronized
+              - Object: [chrome.storage.sync]( http://goo.gl/iLT2vY )
+              - Files (via Google drive): [chrome.syncFileSystem]( http://goo.gl/D9LdDQ )
+            - Push Message: [chrome.pushMessaging]( http://goo.gl/EhnR8r )
+            - Open APIs (OAuth2): [chrome.identity]( http://goo.gl/NxU5GM )
+            - [Autoupdating]( http://goo.gl/wkqci )
+            - One time and In-App Payments via [Google Wallet]( http://goo.gl/oi0Lnk )
+          </script>
+        </section>
+
+        <section data-markdown id="natively-integrated">
+          <script type="text/template">
+          ## Natively integrated
+            - Chrome app launcher
+            - No Browser frame, No navigation, Window Frame, Alt-tab Swiching
+            - Play with [notifications]( http://goo.gl/I5IJDV ), [alarms]( http://goo.gl/XRjkFB ), [bluetooth]( http://goo. gl/oJUdd1 ), [socket]( http://goo.gl/qGnNd7 ) and [serial]( http://goo.gl/MbRE3k )
+            - [System information]( http://goo.gl/P3kjku )
+          </script>
+        </section>
+
+        <section data-markdown id="chromeapp-launcher">
+          <div class="fragment fade-out" data-fragment-index="1" id="chromeapp-launcher-icon"></div>
+          <div class="fragment fade-int" data-fragment-index="1" id="chromeapp-launchers">
+          </div>
+        </section>
+
+        <section data-markdown id="no-browser">
+          <div id="no-browser-capture"></div>
+        </section>
+
+      </section>
+
+
+      </div>
+
+<script src="bower_components/jquery/jquery.min.js"></script>
+<script src="bower_components/reveal.js/lib/js/head.min.js"></script>
+<script src="bower_components/reveal.js/js/reveal.min.js"></script>
+<script src="scripts/app.js"></script>
+
+</body>
+</html>
+
