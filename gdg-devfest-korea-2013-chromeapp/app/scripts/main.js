@@ -11,8 +11,6 @@ chrome.app.runtime.onLaunched.addListener(function() {
         minWidth: 1024,
         minHeight: 640
     }, function(win) {
-      // win.fullscreen();
-
     });
 });
 

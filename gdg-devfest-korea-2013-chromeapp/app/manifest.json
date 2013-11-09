@@ -5,7 +5,15 @@
   	"manifest_version": 2,
   	"default_locale": "en",
   	"permissions": [
-      "notifications"
+      "notifications",
+      {
+        "socket": [
+          "tcp-connect:*:9090",
+          "tcp-listen:*:9090"
+        ]
+      },
+      "https://*/*",
+      "http://*/*"
     ],
   	"icons": {
   		"16": "images/gdg-korea-webtech.png",
